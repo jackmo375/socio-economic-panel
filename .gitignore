@@ -2,3 +2,5 @@ data/*
 media/*
 results/*
 **.pdf
+/.quarto/
+/_site/
