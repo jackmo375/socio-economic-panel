@@ -1,17 +1,14 @@
 project:
   type: website
+  output-dir: docs
 
 website:
-  title: "analysis"
+  title: "Report"
   navbar:
     left:
       - href: index.qmd
         text: Home
       - about.qmd
-      - 1_clean.qmd
-      - 2_transform.qmd
-      - 3_impute.qmd
-      - 4_model_diagnostics.qmd
 
 format:
   html:
