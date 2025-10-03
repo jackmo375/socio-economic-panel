@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/about.html</loc>
-    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
+    <loc>https://jackmo375.github.io/socio-economic-panel/1_clean.html</loc>
+    <lastmod>2025-10-03T17:00:25.476Z</lastmod>
   </url>
   <url>
     <loc>https://jackmo375.github.io/socio-economic-panel/index.html</loc>
+    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jackmo375.github.io/socio-economic-panel/about.html</loc>
     <lastmod>2025-10-03T17:03:41.992Z</lastmod>
   </url>
 </urlset>
