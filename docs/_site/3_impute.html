@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Cleaning report</title>
+<title>Cleaning report – analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -58,26 +58,120 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </style>
 
 
-<script src="report_impute_files/libs/clipboard/clipboard.min.js"></script>
-<script src="report_impute_files/libs/quarto-html/quarto.js" type="module"></script>
-<script src="report_impute_files/libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="report_impute_files/libs/quarto-html/axe/axe-check.js" type="module"></script>
-<script src="report_impute_files/libs/quarto-html/popper.min.js"></script>
-<script src="report_impute_files/libs/quarto-html/tippy.umd.min.js"></script>
-<script src="report_impute_files/libs/quarto-html/anchor.min.js"></script>
-<link href="report_impute_files/libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="report_impute_files/libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="report_impute_files/libs/bootstrap/bootstrap.min.js"></script>
-<link href="report_impute_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="report_impute_files/libs/bootstrap/bootstrap-6635001bef3873650e3275c659f8ca27.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="site_libs/quarto-nav/headroom.min.js"></script>
+<script src="site_libs/clipboard/clipboard.min.js"></script>
+<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="site_libs/quarto-search/fuse.min.js"></script>
+<script src="site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="./">
+<script src="site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="site_libs/quarto-html/axe/axe-check.js" type="module"></script>
+<script src="site_libs/quarto-html/popper.min.js"></script>
+<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="site_libs/quarto-html/anchor.min.js"></script>
+<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dc55a5b9e770e841cd82e46aadbfb9b0.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="site_libs/bootstrap/bootstrap-1713c1db1ad41a796903378fc9ac7b2b.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
 
 
+<link rel="stylesheet" href="styles.css">
 </head>
 
-<body class="fullcontent quarto-light">
+<body class="nav-fixed quarto-light">
 
-<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
-
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="./index.html" class="navbar-brand navbar-brand-logo">
+    </a>
+    <a class="navbar-brand" href="./index.html">
+    <span class="navbar-title">analysis</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="./index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./1_clean.html"> 
+<span class="menu-text">Cleaning report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./2_transform.html"> 
+<span class="menu-text">Transformation report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link active" href="./3_impute.html" aria-current="page"> 
+<span class="menu-text">Cleaning report</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="./4_model_diagnostics.html"> 
+<span class="menu-text">Model diagnostic report</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#missingness" id="toc-missingness" class="nav-link active" data-scroll-target="#missingness">Missingness</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
 <main class="content" id="quarto-document-content">
 
 <header id="title-block-header" class="quarto-title-block default">
@@ -125,26 +219,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_missing =</span> <span class="fu">round</span>(n_missing <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(data_imputed),<span class="dv">1</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
-<pre><code># A tibble: 11 × 3
+<pre><code># A tibble: 12 × 3
    variable                     n_missing percent_missing
    &lt;chr&gt;                            &lt;int&gt;           &lt;dbl&gt;
  1 id                                   0               0
- 2 sex                                  0               0
- 3 age                                  0               0
- 4 persons_in_household                 0               0
- 5 number_of_years_of_education         0               0
- 6 employment_status                    0               0
- 7 children                             0               0
- 8 number_income_sources                0               0
- 9 total_annual_income                  0               0
-10 general_health_status                0               0
-11 life_satisfaction                    0               0</code></pre>
+ 2 study_year                           0               0
+ 3 sex                                  0               0
+ 4 age                                  0               0
+ 5 persons_in_household                 0               0
+ 6 children_in_household                0               0
+ 7 number_of_years_of_education         0               0
+ 8 employment_status                    0               0
+ 9 number_income_sources                0               0
+10 total_annual_income                  0               0
+11 general_health_status                0               0
+12 life_satisfaction                    0               0</code></pre>
 </div>
 </div>
+
+
 </section>
 
-</main>
-<!-- /main column -->
+</main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
   window.document.addEventListener("DOMContentLoaded", function (event) {
     const icon = "";

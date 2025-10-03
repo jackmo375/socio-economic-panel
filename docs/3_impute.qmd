@@ -1,0 +1,25 @@
+---
+title: "Cleaning report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+```
+
+Read in the cleaned study data
+```{r}
+readRDS('../data/processed/data_imputed.RDS') %>% as_tibble() -> data_imputed
+```
+## Missingness
+```{r}
+data_imputed %>% summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(cols = everything(),
+               names_to = "variable",
+               values_to = "n_missing") %>%
+  mutate(percent_missing = round(n_missing * 100 / nrow(data_imputed),1))
+```
