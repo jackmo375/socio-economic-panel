@@ -1,0 +1,45 @@
+---
+title: "Transformation report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+
+Import packages
+```{r}
+library(tidyverse)
+```
+
+Read in the transformed data
+```{r}
+readRDS('../data/processed/data_transformed.RDS') %>% as_tibble() -> data_transformed
+```
+
+```{r}
+data_transformed$age %>% 
+  hist(main="age")
+
+data_transformed$persons_in_household %>% 
+  hist(
+    breaks=6,
+    main="persons in household")
+
+data_transformed$number_of_years_of_education %>% 
+  hist(
+    breaks=6,
+    main="number of years of education")
+
+data_transformed$total_annual_income %>% 
+  hist(main="total annual income")
+
+data_transformed$general_health_status %>% 
+  hist(
+    breaks=5,
+    main="general health status")
+
+data_transformed$life_satisfaction %>% hist(
+  breaks=5,
+  main="life satisfaction")
+```

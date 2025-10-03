@@ -1,0 +1,44 @@
+[
+  {
+    "objectID": "2_transform.html",
+    "href": "2_transform.html",
+    "title": "Transformation report",
+    "section": "",
+    "text": "Import packages\n\n\nCode\nlibrary(tidyverse)\n\n\nRead in the transformed data\n\n\nCode\nreadRDS('../data/processed/data_transformed.RDS') %&gt;% as_tibble() -&gt; data_transformed\n\n\n\n\nCode\ndata_transformed$age %&gt;% \n  hist(main=\"age\")\n\n\n\n\n\n\n\n\n\nCode\ndata_transformed$persons_in_household %&gt;% \n  hist(\n    breaks=6,\n    main=\"persons in household\")\n\n\n\n\n\n\n\n\n\nCode\ndata_transformed$number_of_years_of_education %&gt;% \n  hist(\n    breaks=6,\n    main=\"number of years of education\")\n\n\n\n\n\n\n\n\n\nCode\ndata_transformed$total_annual_income %&gt;% \n  hist(main=\"total annual income\")\n\n\n\n\n\n\n\n\n\nCode\ndata_transformed$general_health_status %&gt;% \n  hist(\n    breaks=5,\n    main=\"general health status\")\n\n\n\n\n\n\n\n\n\nCode\ndata_transformed$life_satisfaction %&gt;% hist(\n  breaks=5,\n  main=\"life satisfaction\")"
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "analysis",
+    "section": "",
+    "text": "This is a Quarto website.\nTo learn more about Quarto websites visit https://quarto.org/docs/websites."
+  },
+  {
+    "objectID": "1_clean.html",
+    "href": "1_clean.html",
+    "title": "Cleaning report",
+    "section": "",
+    "text": "Import packages\nCode\nlibrary(tidyverse)\nlibrary(cowplot)\n\n\n\nAttaching package: 'cowplot'\n\n\nThe following object is masked from 'package:lubridate':\n\n    stamp\nRead in the cleaned study data\nCode\nreadRDS('../data/processed/data_clean.RDS') %&gt;% as_tibble() -&gt; data_clean"
+  },
+  {
+    "objectID": "1_clean.html#meta-data",
+    "href": "1_clean.html#meta-data",
+    "title": "Cleaning report",
+    "section": "meta data",
+    "text": "meta data\n\n\nCode\ndata_clean %&gt;% glimpse()\n\n\nRows: 23,522\nColumns: 12\n$ id                           &lt;fct&gt; 194, 194, 194, 194, 194, 19052, 27495, 27…\n$ study_year                   &lt;int&gt; 2015, 2016, 2017, 2018, 2019, 2015, 2016,…\n$ sex                          &lt;fct&gt; female, female, female, female, female, f…\n$ age                          &lt;int&gt; 59, 60, 61, 62, 63, 74, 35, 37, 38, 85, 7…\n$ persons_in_household         &lt;int&gt; 2, 2, 2, 2, 2, 2, 3, 3, 3, 2, 1, 1, 4, 4,…\n$ children_in_household        &lt;int&gt; 0, 0, 0, 0, 0, 0, 1, 1, 1, 0, 0, 0, 2, 2,…\n$ number_of_years_of_education &lt;dbl&gt; 10.5, 10.5, 10.5, 10.5, 10.5, 10.0, 15.0,…\n$ employment_status            &lt;fct&gt; part_time, part_time, part_time, part_tim…\n$ number_income_sources        &lt;int&gt; 1, 1, 1, 1, 1, 2, 1, 1, 1, 2, 2, 2, 1, 1,…\n$ total_annual_income          &lt;dbl&gt; 28678.943, 19962.293, 22227.676, 22100.37…\n$ general_health_status        &lt;int&gt; 4, 3, 3, 5, 4, 2, 2, 3, 2, 3, 4, NA, 3, 3…\n$ life_satisfaction            &lt;int&gt; 6, 5, 7, 5, 6, 8, 8, 8, 8, 8, 5, 8, 8, 7,…"
+  },
+  {
+    "objectID": "1_clean.html#missingness",
+    "href": "1_clean.html#missingness",
+    "title": "Cleaning report",
+    "section": "missingness",
+    "text": "missingness\n\n\nCode\ndata_clean %&gt;% summarise(across(everything(), ~ sum(is.na(.)))) %&gt;%\n  pivot_longer(cols = everything(),\n               names_to = \"variable\",\n               values_to = \"n_missing\") %&gt;%\n  mutate(percent_missing = round(n_missing * 100 / nrow(data_clean),1))\n\n\n# A tibble: 12 × 3\n   variable                     n_missing percent_missing\n   &lt;chr&gt;                            &lt;int&gt;           &lt;dbl&gt;\n 1 id                                   0             0  \n 2 study_year                           0             0  \n 3 sex                                  0             0  \n 4 age                                  0             0  \n 5 persons_in_household                77             0.3\n 6 children_in_household               77             0.3\n 7 number_of_years_of_education      1611             6.8\n 8 employment_status                    2             0  \n 9 number_income_sources                0             0  \n10 total_annual_income                  0             0  \n11 general_health_status              102             0.4\n12 life_satisfaction                  611             2.6\n\n\n\n\nCode\ndata_clean$study_year %&gt;%\n  hist(main='study_year')\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=age)) + \n    geom_histogram(bins=6) + \n    theme_cowplot()\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=persons_in_household)) + \n    geom_histogram(bins=6) + \n    theme_cowplot()\n\n\nWarning: Removed 19 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;%\n  mutate(persons_in_household=log(persons_in_household)) %&gt;%\n  ggplot(aes(x=persons_in_household)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 19 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=children_in_household)) + \n    geom_histogram(bins=6) + \n    theme_cowplot()\n\n\nWarning: Removed 19 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;%\n  mutate(children_in_household=(children_in_household+1)^(-1)) %&gt;%\n  ggplot(aes(x=children_in_household)) + \n    geom_histogram(bins=8) + \n    theme_cowplot()\n\n\nWarning: Removed 19 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=number_of_years_of_education)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 353 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;%\n  mutate(number_of_years_of_education = log(number_of_years_of_education)) %&gt;%\n  ggplot(aes(x=number_of_years_of_education)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 353 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=total_annual_income)) + \n    geom_histogram(bins=6) + \n    theme_cowplot()\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;%\n  mutate(total_annual_income = log(total_annual_income)) %&gt;%\n  ggplot(aes(x=total_annual_income)) + \n    geom_histogram(bins=6) + \n    theme_cowplot()\n\n\nWarning: Removed 2170 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=general_health_status)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 26 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;% \n  ggplot(aes(x=life_satisfaction)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 125 rows containing non-finite outside the scale range\n(`stat_bin()`).\n\n\n\n\n\n\n\n\n\nCode\ndata_clean %&gt;%\n  filter(study_year==2015) %&gt;%\n  mutate(life_satisfaction = log(11 - life_satisfaction)) %&gt;%\n  ggplot(aes(x=life_satisfaction)) + \n    geom_histogram(bins=5) + \n    theme_cowplot()\n\n\nWarning: Removed 125 rows containing non-finite outside the scale range\n(`stat_bin()`)."
+  }
+]

@@ -1,0 +1,23 @@
+project:
+  type: website
+
+website:
+  title: "analysis"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+      - 1_clean.qmd
+      - 2_transform.qmd
+
+format:
+  html:
+    theme:
+      - cosmo
+      - brand
+    css: styles.css
+    toc: true
+
+
+
