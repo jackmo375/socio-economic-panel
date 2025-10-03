@@ -1,0 +1,33 @@
+---
+title: "Model outliers report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+library(performance)
+library(cowplot)
+library(lattice)
+```
+```{r}
+readRDS('../data/processed/data_imputed.RDS') -> data_imputed
+readRDS('../results/lme_fit.RDS') -> lme_fit
+read.csv('../data/raw/soep_practice_studv.csv') %>%
+  as_tibble() -> data_raw
+```
+
+```{r}
+lme_fit %>% summary()
+```
+
+```{r}
+ranef(lme_fit) %>% as.data.frame %>% ggplot(aes(x=condval)) + geom_histogram() + theme_cowplot()
+```
+
+I need to draw a table of the clusters with extreme random effect values. And then investigate them. 

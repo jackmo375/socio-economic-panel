@@ -1,0 +1,125 @@
+---
+title: "Model predictions report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+library(performance)
+library(cowplot)
+library(lattice)
+```
+```{r}
+readRDS('../data/processed/data_imputed.RDS') -> data_imputed
+readRDS('../results/lme_fit.RDS') -> lme_fit
+read.csv('../data/raw/soep_practice_studv.csv') %>%
+  as_tibble() -> data_raw
+```
+
+```{r}
+lme_fit %>% summary()
+```
+
+Here we show model predictions for cohort member 11390. There are 4 observations of this person in the dataset. They are female, and were observed in the study from 2016 to 2019. They joined the study in 2015 at 17 years old. 
+
+```{r}
+data.frame(
+  id='11390',
+  sex='female',
+  age=seq(from=(20)/100, to=(30)/100, length.out=100),
+  persons_in_household=log(5),
+  number_of_years_of_education=2.30,
+  employment_status='full_time',
+  children_in_household=1,
+  number_income_sources=1,
+  total_annual_income=log(20000+1),
+  general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+  mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+  mutate(age = age*100) %>%
+  ggplot(aes(x=age, y=fit)) + 
+  geom_line() +
+  labs(x='age (years)', y='life satisfaction') +
+  theme_cowplot()
+```
+
+```{r}
+data.frame(
+  id='11390',
+  sex='female',
+  age=30/100,
+  persons_in_household=seq(from=log(1), to=log(13), length.out=10),
+  number_of_years_of_education=log(10),
+  employment_status='full_time',
+  children_in_household=1,
+  number_income_sources=1,
+  total_annual_income=log(20000+1),
+  general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+  mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+  mutate(persons_in_household = exp(persons_in_household)) %>%
+    ggplot(aes(x=persons_in_household, y=fit)) + 
+    geom_line() +
+    labs(x='number of persons in household', y='life satisfaction') +
+    theme_cowplot()
+```
+
+```{r}
+data.frame(
+  id='11390',
+  sex='female',
+  age=30/100,
+  persons_in_household=log(5),
+  number_of_years_of_education=seq(from=log(7), to=log(18), length.out=10),
+  employment_status='full_time',
+  children_in_household=1,
+  number_income_sources=1,
+  total_annual_income=log(20000+1),
+  general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+  mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+  mutate(number_of_years_of_education = exp(number_of_years_of_education)) %>%
+    ggplot(aes(x=number_of_years_of_education, y=fit)) + 
+    geom_line() +
+    labs(x='number of years of education', x='life satisfaction') + 
+    theme_cowplot()
+```
+
+```{r}
+data.frame(
+  id='11390',
+  sex='female',
+  age=20/100,
+  persons_in_household=log(5),
+  number_of_years_of_education=2.30,
+  employment_status='full_time',
+  children_in_household=1,
+  number_income_sources=1,
+  total_annual_income=log(20000+1),
+  general_health_status=1:5) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+  mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+  mutate(general_health_status = 6 - general_health_status) %>%
+  ggplot(aes(x=general_health_status, y=fit)) + 
+  geom_line() +
+  labs(x='general health status', y='life satisfaction') +
+  theme_cowplot()
+```

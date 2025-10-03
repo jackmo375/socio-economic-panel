@@ -1,0 +1,115 @@
+---
+title: "Model effects report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+library(performance)
+library(cowplot)
+library(lattice)
+```
+```{r}
+readRDS('../data/processed/data_imputed.RDS') -> data_imputed
+readRDS('../results/lme_fit.RDS') -> lme_fit
+read.csv('../data/raw/soep_practice_studv.csv') %>%
+  as_tibble() -> data_raw
+```
+
+```{r}
+lme_fit %>% summary()
+```
+
+```{r}
+as.data.frame(predictorEffect("sex", lme_fit)) %>%
+  ggplot(aes(x=sex, y=fit)) +
+    geom_point() +
+    geom_errorbar( aes(x=sex, ymin=lower, ymax=upper), width=0.1) +
+    labs(y="life satisfaction") +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("age", lme_fit)) %>%
+  mutate(age = age*100) %>%
+  ggplot(aes(x=age, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction") +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("persons_in_household", lme_fit)) %>%
+  mutate(persons_in_household = exp(persons_in_household)) %>%
+  ggplot(aes(x=persons_in_household, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction", x="number of persons in household") +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("children_in_household", lme_fit)) %>%
+  mutate(children_in_household = (children_in_household)^(-1) - 1) %>%
+  ggplot(aes(x=children_in_household, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction", x='number of children in household') +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("number_of_years_of_education", lme_fit)) %>%
+  mutate(number_of_years_of_education = exp(number_of_years_of_education)) %>%
+  ggplot(aes(x=number_of_years_of_education, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction", x='number of years of education') +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("employment_status", lme_fit)) %>%
+  ggplot(aes(y=employment_status, x=fit)) +
+    geom_point() +
+    geom_errorbar(aes(y=employment_status, xmin=lower, xmax=upper), width=0.1) +
+    labs(x="life satisfaction", y='employment status') +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("number_income_sources", lme_fit)) %>%
+  ggplot(aes(x=number_income_sources, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction", x='number of income sources') +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("total_annual_income", lme_fit)) %>%
+  mutate(total_annual_income = exp(total_annual_income) - 1) %>%
+  ggplot(aes(x=total_annual_income, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    scale_x_log10() +
+    labs(y="life satisfaction", x='total annual income (euros)') +
+    theme_cowplot()
+```
+
+```{r}
+as.data.frame(predictorEffect("general_health_status", lme_fit)) %>%
+  mutate(general_health_status = 6 - general_health_status) %>%
+  ggplot(aes(x=general_health_status, y=fit)) + 
+    geom_line() + 
+    geom_ribbon(aes(ymin = lower, ymax = upper), alpha = 0.2) +
+    labs(y="life satisfaction", x='general health status') +
+    theme_cowplot()
+```

@@ -1,0 +1,114 @@
+---
+title: "Cleaning report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+library(cowplot)
+```
+
+Read in the cleaned study data
+```{r}
+readRDS('../data/processed/data_clean.RDS') %>% as_tibble() -> data_clean
+```
+
+## meta data
+```{r}
+data_clean %>% glimpse()
+```
+
+## missingness
+```{r}
+data_clean %>% summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(cols = everything(),
+               names_to = "variable",
+               values_to = "n_missing") %>%
+  mutate(percent_missing = round(n_missing * 100 / nrow(data_clean),1))
+```
+
+```{r}
+data_clean$study_year %>%
+  hist(main='study_year')
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=age)) + 
+    geom_histogram(bins=6) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=persons_in_household)) + 
+    geom_histogram(bins=6) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>%
+  mutate(persons_in_household=log(persons_in_household)) %>%
+  ggplot(aes(x=persons_in_household)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=children_in_household)) + 
+    geom_histogram(bins=6) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>%
+  mutate(children_in_household=(children_in_household+1)^(-1)) %>%
+  ggplot(aes(x=children_in_household)) + 
+    geom_histogram(bins=8) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=number_of_years_of_education)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>%
+  mutate(number_of_years_of_education = log(number_of_years_of_education)) %>%
+  ggplot(aes(x=number_of_years_of_education)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=total_annual_income)) + 
+    geom_histogram(bins=6) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>%
+  mutate(total_annual_income = log(total_annual_income)) %>%
+  ggplot(aes(x=total_annual_income)) + 
+    geom_histogram(bins=6) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=general_health_status)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>% 
+  ggplot(aes(x=life_satisfaction)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+
+data_clean %>%
+  filter(study_year==2015) %>%
+  mutate(life_satisfaction = log(11 - life_satisfaction)) %>%
+  ggplot(aes(x=life_satisfaction)) + 
+    geom_histogram(bins=5) + 
+    theme_cowplot()
+```

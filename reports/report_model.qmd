@@ -1,0 +1,278 @@
+---
+title: "Model report"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+Import packages
+```{r}
+library(tidyverse)
+library(lme4)
+library(effects)
+library(performance)
+library(cowplot)
+library(lattice)
+```
+```{r}
+readRDS('../data/processed/data_imputed.RDS') -> data_imputed
+readRDS('../results/lme_fit.RDS') -> lme_fit
+read.csv('../data/raw/soep_practice_studv.csv') %>%
+	as_tibble() -> data_raw
+```
+
+```{r}
+lme_fit %>% summary()
+```
+
+## Diagnostics & Model Checking
+
+```{r}
+plot(lme_fit) # default plot gives residuals vs fitted
+```
+
+# checks for non-linearity, heteroscadicity
+```{r}
+qqnorm(resid(lme_fit))
+qqline(resid(lme_fit))
+```
+
+# Tests normality of residuals.
+```{r}
+#ranef(lme_fit)
+dotplot(ranef(lme_fit, condVar = TRUE))
+```
+```{r}
+performance::r2(lme_fit)
+```
+
+## Fixed Effects Visualization
+
+```{r}
+plot(allEffects(lme_fit))
+```
+
+### sex
+```{r}
+as.data.frame(predictorEffect("sex", lme_fit)) %>%
+	mutate(
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=sex, y=fit_m)) +
+	geom_point() +
+	geom_errorbar( aes(x=sex, ymin=lower_m, ymax=upper_m), width=0.1) + 
+	theme_cowplot()
+```
+### age
+```{r}
+as.data.frame(predictorEffect("age", lme_fit)) %>%
+	mutate(
+		age = age*100,
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=age, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+### persons in household
+```{r}
+as.data.frame(predictorEffect("persons_in_household", lme_fit)) %>%
+	mutate(
+		persons_in_household = exp(persons_in_household),
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=persons_in_household, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+
+as.data.frame(predictorEffect("children_in_household", lme_fit)) %>%
+	mutate(
+		children_in_household = (children_in_household)^(-1) - 1,
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=children_in_household, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+### years in education
+```{r}
+as.data.frame(predictorEffect("number_of_years_of_education", lme_fit)) %>%
+	mutate(
+		number_of_years_of_education = exp(number_of_years_of_education),
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=number_of_years_of_education, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+### employment status
+```{r}
+as.data.frame(predictorEffect("employment_status", lme_fit)) %>%
+	mutate(
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(y=employment_status, x=fit_m)) +
+	geom_point() +
+	geom_errorbar(aes(y=employment_status, xmin=lower_m, xmax=upper_m), width=0.1) + 
+	theme_cowplot()
+```
+
+### number_income_sources
+```{r}
+as.data.frame(predictorEffect("number_income_sources", lme_fit)) %>%
+	mutate(
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=number_income_sources, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+### total_annual_income
+```{r}
+as.data.frame(predictorEffect("total_annual_income", lme_fit)) %>%
+	mutate(
+		total_annual_income = exp(total_annual_income) - 1,
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=total_annual_income, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+### general_health_status
+```{r}
+as.data.frame(predictorEffect("general_health_status", lme_fit)) %>%
+	mutate(
+		general_health_status = 6 - general_health_status,
+		fit_m = 11 - exp(fit),
+		lower_m = 11 - exp(upper),
+		upper_m = 11 - exp(lower)) %>%
+	ggplot(aes(x=general_health_status, y=fit_m)) + 
+		geom_line() + 
+		geom_ribbon(aes(ymin = lower_m, ymax = upper_m), alpha = 0.2) +
+		theme_cowplot()
+```
+## Random effects Visualization
+
+```{r}
+sjPlot::plot_model(lme_fit, type = "re")
+#dotplot(ranef(lme_fit, condVar = TRUE))
+```
+## model predictions for cohort member 11390
+
+# 4 observations of them in the dataset
+# female
+# observed from 2016 to 2019
+# joined the study at 17 years old
+
+### age
+```{r}
+data.frame(
+	id='11390',
+	sex='female',
+	age=seq(from=(20)/100, to=(30)/100, length.out=100),
+	persons_in_household=log(5),
+	number_of_years_of_education=2.30,
+	employment_status='full_time',
+	children_in_household=1,
+	number_income_sources=1,
+	total_annual_income=10.3,
+	general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+	mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+	mutate(
+		age = age*100,
+		fit_m = 11 - exp(fit)) %>%
+	ggplot(aes(x=age, y=fit_m)) + 
+	geom_line() +
+	theme_cowplot()
+
+### number of persons in household
+data.frame(
+	id='11390',
+	sex='female',
+	age=30/100,
+	persons_in_household=seq(from=log(1), to=log(13), length.out=10),
+	number_of_years_of_education=log(10),
+	employment_status='full_time',
+	children_in_household=1,
+	number_income_sources=1,
+	total_annual_income=10.3,
+	general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+	mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+	mutate(
+		persons_in_household = exp(persons_in_household),
+		fit_m = 11 - exp(fit)) %>%
+	ggplot(aes(x=persons_in_household, y=fit_m)) + 
+	geom_line() +
+	theme_cowplot()
+
+### number of years of education
+data.frame(
+	id='11390',
+	sex='female',
+	age=30/100,
+	persons_in_household=log(5),
+	number_of_years_of_education=seq(from=log(7), to=log(18), length.out=10),
+	employment_status='full_time',
+	children_in_household=1,
+	number_income_sources=1,
+	total_annual_income=10.3,
+	general_health_status=4) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+	mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+	mutate(
+		number_of_years_of_education = exp(number_of_years_of_education),
+		fit_m = 11 - exp(fit)) %>%
+	ggplot(aes(x=number_of_years_of_education, y=fit_m)) + 
+	geom_line() +
+	theme_cowplot()
+
+### general health status
+data.frame(
+	id='11390',
+	sex='female',
+	age=20/100,
+	persons_in_household=log(5),
+	number_of_years_of_education=2.30,
+	employment_status='full_time',
+	children_in_household=1,
+	number_income_sources=1,
+	total_annual_income=10.3,
+	general_health_status=1:5) %>% as_tibble() -> prediction_lattice_11390
+
+prediction_lattice_11390 %>% 
+	mutate(fit = predict(lme_fit, prediction_lattice_11390, re.form = NULL)) -> predictions_11390
+
+predictions_11390 %>%
+	mutate(
+		general_health_status = 6 - general_health_status,
+		fit_m = 11 - exp(fit)) %>%
+	ggplot(aes(x=general_health_status, y=fit_m)) + 
+	geom_line() +
+	theme_cowplot()
+```
