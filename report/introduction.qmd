@@ -1,0 +1,1 @@
+* What are all the key factors we would imagine influencing life satisfaction in a first world country population? Write them all down. If they are not found in the clean SOEP data set, but we expect them to be influential, this is important. We will need to discuss it in the discussion section. 
