@@ -8,6 +8,7 @@ website:
       - href: index.qmd
         text: Home
       - about.qmd
+      - methods.qmd
       - results.qmd
       - appendix.qmd
     right:

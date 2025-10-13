@@ -1,0 +1,59 @@
+---
+title: "Methods"
+format:
+  html:
+    code-fold: true
+execute: 
+  echo: true
+---
+
+## Study Design
+
+This study used a longitudinal observational design based on secondary survey data to examine the factors associated with changes in life satisfaction over time in a German adult cohort. We aim to show which factors - for example age, sex, income, health, education, community, and so on - are the most influential on an adult person's self perceived evaluation of their life satisfaction. The panel data used in this study was collected from 2015 to 2019, and all regions of Germany, including both former West and East Germany since reunification, were sampled.
+
+## Data Source
+
+Data for this study were drawn from the German Socio-Economic Panel (SOEP), a nationally representative longitudinal household panel survey conducted annually across Germany since 1984. The SOEP targets individuals aged 17 years and older living in private households, including both German citizens and non-citizens. The survey uses a multistage stratified random sampling design, in which municipalities are first selected within federal-state strata, and households are then randomly drawn within these areas. All household members aged 17 and older are invited to participate and are followed prospectively each year, even if they move. To offset attrition and maintain representativeness, the panel periodically incorporates refreshment samples, adding newly formed households, immigrants, and other underrepresented groups. Survey weights provided by DIW Berlin are used to adjust for unequal selection probabilities and nonresponse. The prospective panel design allows for the examination of within-individual changes over time, while some survey modules also include retrospective questions on life histories.
+
+A random sample of 20% of the the German Socio-Economic Panel (SOEP, version 36) master data set (2015-2019) was drawn for the purpose of the study. The SOEP is an ongoing longitudinal household survey conducted annually since 1984; it is a nationally representative sample of private households in Germany and includes detailed information on socio-demographic, economic, and psychosocial variables. Ethical approval for data collection was granted by the German Institute for Economic Research (DIW Berlin).
+
+The number of observation periods for each individual in the random sample was 5 (2015, 2016, 2017, 2018, and 2019). The variables selected from the master data set for the random sample were: Person ID, Survey year, Sex, Age, Number of children in household, Number of people in household, Number of education years, Subjective health, Current life satisfaction, Employment status, Job income (1st Job), Job income (2nd Job), Occupation Industry/sector. 
+
+## Study Population
+
+We restricted the sample to respondents aged 18 years or older with valid data on life satisfaction in at least two waves. After excluding individuals with missing data on key covariates, the final analytic sample comprised 6355 participants and 23,522 observations. We removed any column with more than 10% missing data, and we used the R package `missForest` to impute the rest of the missing data. Since we used multilevel regression techniques to produce the final model, we did not require a fixed cluster size (where each individual in the study defined a unique cluster of observations between the years 2015 and 2019) and therefore we did not need to deal specifically with participant attrition or sample refreshment. 
+
+## Measures
+
+Here we describe each key variable — especially the dependent variable and major predictors.
+
+### Outcome: Life Satisfaction
+
+Life satisfaction was measured annually using a single global item included in the SOEP core questionnaire: “How satisfied are you with your life, all things considered, at the moment?” Responses were recorded on an 11-point scale ranging from 0 (“completely dissatisfied”) to 10 (“completely satisfied”). This measure has demonstrated strong reliability and validity in previous research and is widely used as a standard indicator of subjective well-being in longitudinal studies. The variable was treated as continuous in all analyses.
+
+### Predictors / Exposures
+
+Predictors included in our regression model were: Person ID, Survey year, Number of children in household, Number of people in household, Number of education years, Subjective health, Current life satisfaction, Employment status, Job income (1st Job), Job income (2nd Job), Occupation Industry/sector. All incomes were measured as total annual income, in euros. Employment status included unemployed, student, part time work, in an apprenticeship, on a disability program, or full time work. Self-rated health was assessed annually with the question, “How would you describe your current health?”, answered on a five-point Likert scale ranging from 1 (“very good”) to 5 (“bad”). The item reflects respondents’ subjective evaluation of their general health status and has been shown to predict morbidity and mortality in numerous studies. For analysis, the variable was reverse-coded so that higher values indicated better perceived health.
+
+### Control variables
+
+Age (in years) and gender (male or female) were included as covariates. 
+
+
+## Statistical Analysis
+
+All analyses were conducted using R (version 4.2.2). To account for the longitudinal structure of the data, multilevel linear regression models were estimated with life satisfaction as the continuous outcome. Each participant was treated as a cluster with a random intercept, while all predictors (time-varying and time-invariant) were included as fixed effects. This approach accounts for within-person correlation across repeated waves while estimating the effects of predictors consistently across individuals.
+
+Missing data on predictors were handled using multiple imputation via the missForest package, which implements a non-parametric random forest algorithm suitable for mixed-type data.
+
+Model assumptions, including normality of residuals and homoscedasticity, were assessed via diagnostic plots. Results are reported as regression coefficients (β) with t-values.
+
+Age was scaled by 100 before input into the model. All right-skewed distributions were log transformed before imputation, and left-skewed distributions were first mapped to right skewed ones, and then logarithmically transformed. For any extreme left skewed distributions we used the inverse transformation before imputation and input into the regression model. 
+
+## Ethical Considerations
+
+This study used anonymized secondary data from the SOEP, for which all participants provided informed consent. No additional ethical approval was required.
+
+## Reproducibility and Data Availability
+
+All data processing and statistical analyses were conducted in R. The full analysis pipeline, including data cleaning, imputation, model specification, and figure generation scripts, is openly available on GitHub at: https://github.com/jackmo375/socio-economic-panel.git.
