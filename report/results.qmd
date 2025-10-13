@@ -284,4 +284,4 @@ predictions_11390 %>%
   theme_cowplot()
 ```
 
-We predict their life expectancy to drop 3 points, from 9 (very satisfied) to 6 (less satisfied), as their health condition deteriorates from a level 1 (good) to 5 (worst). We note that, even in the case where their self-assed health is at its lowest, their life satisfaction still remains above the mod point of the 10 point scale. 
+We predict their life expectancy to drop 3 points, from 9 (very satisfied) to 6 (less satisfied), as their health condition deteriorates from a level 1 (good) to 5 (worst). We note that, even in the case where their self-assed health is at its lowest, their life satisfaction still remains above the mid point of the 10 point scale. 

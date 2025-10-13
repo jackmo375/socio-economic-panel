@@ -13,6 +13,7 @@ suppressWarnings(library(tidyverse))
 suppressWarnings(library(cowplot))
 suppressWarnings(library(knitr))
 suppressWarnings(library(performance))
+suppressWarnings(library(missForest))
 ```
 
 # Summary statistics
@@ -22,40 +23,69 @@ readRDS('../data/processed/data_clean.RDS') %>% as_tibble() -> data_clean
 
 # Univariate summaries of the data
 
-## number of persons in the household
 ```{r}
+#| label: tbl-persons-in-household
+#| tbl-cap: Number of persons in the household
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(persons_in_household)[1], Q_1 = fivenum(persons_in_household)[2], Q_2 = fivenum(persons_in_household)[3], Q_3 = fivenum(persons_in_household)[4], Q_4 = fivenum(persons_in_household)[5]) %>% kable()
 ```
-## number of children in the household
+
 ```{r}
+#| label: tbl-children-in-household
+#| tbl-cap: number of children in the household
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(children_in_household)[1], Q_1 = fivenum(children_in_household)[2], Q_2 = fivenum(children_in_household)[3], Q_3 = fivenum(children_in_household)[4], Q_4 = fivenum(children_in_household)[5]) %>% kable()
 ```
 
-## number of years of education
 ```{r}
+#| label: tbl-years-of-education
+#| tbl-cap: number of years of education
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(number_of_years_of_education)[1], Q_1 = fivenum(number_of_years_of_education)[2], Q_2 = fivenum(number_of_years_of_education)[3], Q_3 = fivenum(number_of_years_of_education)[4], Q_4 = fivenum(number_of_years_of_education)[5]) %>% kable()
 ```
 
-## total annual income (euros)
 ```{r}
+#| label: tbl-ptotal-annual-income
+#| tbl-cap: total annual income in euros
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(total_annual_income)[1], Q_1 = fivenum(total_annual_income)[2], Q_2 = fivenum(total_annual_income)[3], Q_3 = fivenum(total_annual_income)[4], Q_4 = fivenum(total_annual_income)[5]) %>% kable()
 ```
 
-## general health status
 ```{r}
+#| label: tbl-general-health-status
+#| tbl-cap: general health status
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(general_health_status)[1], Q_1 = fivenum(general_health_status)[2], Q_2 = fivenum(general_health_status)[3], Q_3 = fivenum(general_health_status)[4], Q_4 = fivenum(general_health_status)[5]) %>% kable()
 ```
 
-## life satisfaction
 ```{r}
+#| label: tbl-life-satisfaction
+#| tbl-cap: life satisfaction
+
 data_clean %>% group_by(study_year) %>% summarize(Q_0 = fivenum(life_satisfaction)[1], Q_1 = fivenum(life_satisfaction)[2], Q_2 = fivenum(life_satisfaction)[3], Q_3 = fivenum(life_satisfaction)[4], Q_4 = fivenum(life_satisfaction)[5]) %>% kable()
 ```
 
 # Imputation results
 
-* include the missingness here too
+```{r}
+data_clean %>% summarise(across(everything(), ~ sum(is.na(.)))) %>%
+  pivot_longer(cols = everything(),
+               names_to = "variable",
+               values_to = "n_missing") %>%
+  mutate(percent_missing = round(n_missing * 100 / nrow(data_clean),1)) %>%
+  kable()
+```
 
-* put the imputation error estimates here. They are not the main results. 
+```{r}
+readRDS('../data/processed/impute_output.RDS') -> imp
+```
+
+```{r}
+plot(imp$OOBerror, type = "b", pch = 19,
+     xlab = "Iteration",
+     ylab = "OOB error",
+     main = "MissForest convergence")
+```
 
 # Model diagnostics
 
@@ -71,5 +101,6 @@ As can be seen in the above table, the scaled residuals are approximately normal
 performance::r2(lme_fit)
 ```
 
-* put the model diagnostics *here*, including the weird fitted residuals plot, and qq plot.
-* do the R^2 values go here?
+```{r}
+plot(lme_fit)
+```
