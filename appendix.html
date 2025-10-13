@@ -167,15 +167,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
    
   <ul>
   <li><a href="#summary-statistics" id="toc-summary-statistics" class="nav-link active" data-scroll-target="#summary-statistics">Summary statistics</a></li>
-  <li><a href="#univariate-summaries-of-the-data" id="toc-univariate-summaries-of-the-data" class="nav-link" data-scroll-target="#univariate-summaries-of-the-data">Univariate summaries of the data</a>
-  <ul class="collapse">
-  <li><a href="#number-of-persons-in-the-household" id="toc-number-of-persons-in-the-household" class="nav-link" data-scroll-target="#number-of-persons-in-the-household">number of persons in the household</a></li>
-  <li><a href="#number-of-children-in-the-household" id="toc-number-of-children-in-the-household" class="nav-link" data-scroll-target="#number-of-children-in-the-household">number of children in the household</a></li>
-  <li><a href="#number-of-years-of-education" id="toc-number-of-years-of-education" class="nav-link" data-scroll-target="#number-of-years-of-education">number of years of education</a></li>
-  <li><a href="#total-annual-income-euros" id="toc-total-annual-income-euros" class="nav-link" data-scroll-target="#total-annual-income-euros">total annual income (euros)</a></li>
-  <li><a href="#general-health-status" id="toc-general-health-status" class="nav-link" data-scroll-target="#general-health-status">general health status</a></li>
-  <li><a href="#life-satisfaction" id="toc-life-satisfaction" class="nav-link" data-scroll-target="#life-satisfaction">life satisfaction</a></li>
-  </ul></li>
+  <li><a href="#univariate-summaries-of-the-data" id="toc-univariate-summaries-of-the-data" class="nav-link" data-scroll-target="#univariate-summaries-of-the-data">Univariate summaries of the data</a></li>
   <li><a href="#imputation-results" id="toc-imputation-results" class="nav-link" data-scroll-target="#imputation-results">Imputation results</a></li>
   <li><a href="#model-diagnostics" id="toc-model-diagnostics" class="nav-link" data-scroll-target="#model-diagnostics">Model diagnostics</a></li>
   </ul>
@@ -222,7 +214,8 @@ Attaching package: 'cowplot'</code></pre>
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">library</span>(knitr))</span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">library</span>(performance))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">library</span>(performance))</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressWarnings</span>(<span class="fu">library</span>(missForest))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <section id="summary-statistics" class="level1">
@@ -236,15 +229,19 @@ Attaching package: 'cowplot'</code></pre>
 </section>
 <section id="univariate-summaries-of-the-data" class="level1">
 <h1>Univariate summaries of the data</h1>
-<section id="number-of-persons-in-the-household" class="level2">
-<h2 class="anchored" data-anchor-id="number-of-persons-in-the-household">number of persons in the household</h2>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(persons_in_household)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(persons_in_household)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(persons_in_household)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(persons_in_household)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(persons_in_household)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-persons-in-household" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-persons-in-household-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;1: Number of persons in the household
+</figcaption>
+<div aria-describedby="tbl-persons-in-household-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -300,16 +297,22 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
-<section id="number-of-children-in-the-household" class="level2">
-<h2 class="anchored" data-anchor-id="number-of-children-in-the-household">number of children in the household</h2>
+</figure>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(children_in_household)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(children_in_household)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(children_in_household)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(children_in_household)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(children_in_household)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-children-in-household" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-children-in-household-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;2: number of children in the household
+</figcaption>
+<div aria-describedby="tbl-children-in-household-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -365,16 +368,22 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
-<section id="number-of-years-of-education" class="level2">
-<h2 class="anchored" data-anchor-id="number-of-years-of-education">number of years of education</h2>
+</figure>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(number_of_years_of_education)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(number_of_years_of_education)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(number_of_years_of_education)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(number_of_years_of_education)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(number_of_years_of_education)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-years-of-education" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-years-of-education-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;3: number of years of education
+</figcaption>
+<div aria-describedby="tbl-years-of-education-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -430,16 +439,22 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
-<section id="total-annual-income-euros" class="level2">
-<h2 class="anchored" data-anchor-id="total-annual-income-euros">total annual income (euros)</h2>
+</figure>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(total_annual_income)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(total_annual_income)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(total_annual_income)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(total_annual_income)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(total_annual_income)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-ptotal-annual-income" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-ptotal-annual-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;4: total annual income in euros
+</figcaption>
+<div aria-describedby="tbl-ptotal-annual-income-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -495,16 +510,22 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
-<section id="general-health-status" class="level2">
-<h2 class="anchored" data-anchor-id="general-health-status">general health status</h2>
+</figure>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(general_health_status)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(general_health_status)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(general_health_status)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(general_health_status)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(general_health_status)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-general-health-status" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-general-health-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;5: general health status
+</figcaption>
+<div aria-describedby="tbl-general-health-status-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -560,16 +581,22 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
-<section id="life-satisfaction" class="level2">
-<h2 class="anchored" data-anchor-id="life-satisfaction">life satisfaction</h2>
+</figure>
+</div>
+</div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">group_by</span>(study_year) <span class="sc">%&gt;%</span> <span class="fu">summarize</span>(<span class="at">Q_0 =</span> <span class="fu">fivenum</span>(life_satisfaction)[<span class="dv">1</span>], <span class="at">Q_1 =</span> <span class="fu">fivenum</span>(life_satisfaction)[<span class="dv">2</span>], <span class="at">Q_2 =</span> <span class="fu">fivenum</span>(life_satisfaction)[<span class="dv">3</span>], <span class="at">Q_3 =</span> <span class="fu">fivenum</span>(life_satisfaction)[<span class="dv">4</span>], <span class="at">Q_4 =</span> <span class="fu">fivenum</span>(life_satisfaction)[<span class="dv">5</span>]) <span class="sc">%&gt;%</span> <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
+<div id="tbl-life-satisfaction" class="cell quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-tbl figure">
+<figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-life-satisfaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Table&nbsp;6: life satisfaction
+</figcaption>
+<div aria-describedby="tbl-life-satisfaction-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 <div class="cell-output-display">
-<table class="caption-top table table-sm table-striped small">
+<table class="do-not-create-environment cell caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
 <th style="text-align: right;">study_year</th>
@@ -625,27 +652,131 @@ Attaching package: 'cowplot'</code></pre>
 </table>
 </div>
 </div>
-</section>
+</figure>
+</div>
+</div>
 </section>
 <section id="imputation-results" class="level1">
 <h1>Imputation results</h1>
-<ul>
-<li><p>include the missingness here too</p></li>
-<li><p>put the imputation error estimates here. They are not the main results.</p></li>
-</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>data_clean <span class="sc">%&gt;%</span> <span class="fu">summarise</span>(<span class="fu">across</span>(<span class="fu">everything</span>(), <span class="sc">~</span> <span class="fu">sum</span>(<span class="fu">is.na</span>(.)))) <span class="sc">%&gt;%</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(<span class="at">cols =</span> <span class="fu">everything</span>(),</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>               <span class="at">names_to =</span> <span class="st">"variable"</span>,</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>               <span class="at">values_to =</span> <span class="st">"n_missing"</span>) <span class="sc">%&gt;%</span></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">percent_missing =</span> <span class="fu">round</span>(n_missing <span class="sc">*</span> <span class="dv">100</span> <span class="sc">/</span> <span class="fu">nrow</span>(data_clean),<span class="dv">1</span>)) <span class="sc">%&gt;%</span></span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">kable</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th style="text-align: left;">variable</th>
+<th style="text-align: right;">n_missing</th>
+<th style="text-align: right;">percent_missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">id</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">study_year</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">sex</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">age</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">persons_in_household</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">children_in_household</td>
+<td style="text-align: right;">77</td>
+<td style="text-align: right;">0.3</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">number_of_years_of_education</td>
+<td style="text-align: right;">1611</td>
+<td style="text-align: right;">6.8</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">employment_status</td>
+<td style="text-align: right;">2</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">number_income_sources</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">total_annual_income</td>
+<td style="text-align: right;">0</td>
+<td style="text-align: right;">0.0</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">general_health_status</td>
+<td style="text-align: right;">102</td>
+<td style="text-align: right;">0.4</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">life_satisfaction</td>
+<td style="text-align: right;">611</td>
+<td style="text-align: right;">2.6</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readRDS</span>(<span class="st">'../data/processed/impute_output.RDS'</span>) <span class="ot">-&gt;</span> imp</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(imp<span class="sc">$</span>OOBerror, <span class="at">type =</span> <span class="st">"b"</span>, <span class="at">pch =</span> <span class="dv">19</span>,</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>     <span class="at">xlab =</span> <span class="st">"Iteration"</span>,</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>     <span class="at">ylab =</span> <span class="st">"OOB error"</span>,</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>     <span class="at">main =</span> <span class="st">"MissForest convergence"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="appendix_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 </section>
 <section id="model-diagnostics" class="level1">
 <h1>Model diagnostics</h1>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readRDS</span>(<span class="st">'../results/lme_fit.RDS'</span>) <span class="ot">-&gt;</span> lme_fit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">readRDS</span>(<span class="st">'../results/lme_fit.RDS'</span>) <span class="ot">-&gt;</span> lme_fit</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 </div>
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>lme_fit <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>lme_fit <span class="sc">%&gt;%</span> <span class="fu">summary</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code>Linear mixed model fit by REML ['lmerMod']
@@ -696,7 +827,7 @@ Use print(x, correlation=TRUE)  or
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2</span>(lme_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>performance<span class="sc">::</span><span class="fu">r2</span>(lme_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># R2 for Mixed Models
@@ -705,10 +836,19 @@ Use print(x, correlation=TRUE)  or
      Marginal R2: 0.155</code></pre>
 </div>
 </div>
-<ul>
-<li>put the model diagnostics <em>here</em>, including the weird fitted residuals plot, and qq plot.</li>
-<li>do the R^2 values go here?</li>
-</ul>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">plot</span>(lme_fit)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="appendix_files/figure-html/unnamed-chunk-9-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
 
 
 </section>
