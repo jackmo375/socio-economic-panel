@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/appendix.html</loc>
-    <lastmod>2025-10-07T03:30:11.056Z</lastmod>
+    <loc>https://jackmo375.github.io/socio-economic-panel/methods.html</loc>
+    <lastmod>2025-10-13T17:17:13.136Z</lastmod>
   </url>
   <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/results.html</loc>
-    <lastmod>2025-10-06T12:23:47.392Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/about.html</loc>
-    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
-  </url>
-  <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/index.html</loc>
-    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
+    <loc>https://jackmo375.github.io/socio-economic-panel/introduction.html</loc>
+    <lastmod>2025-10-03T21:51:55.616Z</lastmod>
   </url>
   <url>
     <loc>https://jackmo375.github.io/socio-economic-panel/1_clean.html</loc>
     <lastmod>2025-10-03T17:00:25.476Z</lastmod>
   </url>
   <url>
-    <loc>https://jackmo375.github.io/socio-economic-panel/introduction.html</loc>
-    <lastmod>2025-10-03T21:51:55.616Z</lastmod>
+    <loc>https://jackmo375.github.io/socio-economic-panel/index.html</loc>
+    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jackmo375.github.io/socio-economic-panel/about.html</loc>
+    <lastmod>2025-10-03T17:03:41.992Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jackmo375.github.io/socio-economic-panel/results.html</loc>
+    <lastmod>2025-10-06T12:23:47.392Z</lastmod>
+  </url>
+  <url>
+    <loc>https://jackmo375.github.io/socio-economic-panel/appendix.html</loc>
+    <lastmod>2025-10-07T03:30:11.056Z</lastmod>
   </url>
 </urlset>
